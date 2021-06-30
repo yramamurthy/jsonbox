@@ -123,10 +123,10 @@ const checkBoxIdWhitelisted = async (req, res, next) => {
 				});
 
 				if (data.allowed) next();
-				else throwError('Disallowed BOX_ID.', 401);
+				else throwError(`Disallowed BOX_ID. ${req.box}`, 401);
 			} catch(e) {
 				console.log(e);
-				throwError('[Axios error] Disallowed BOX_ID.', 401);
+				throwError(`[Axios error] Disallowed BOX_ID. ${req.box}`, 401);
 			}
 		} else next();
 	} catch (error) {
