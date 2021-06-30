@@ -17,10 +17,6 @@ if (config.FILTER_IP_SET !== undefined &&
 
 router.get("/_meta/:boxId", model.xmeta);
 
-if (config.WHITELISTED_BOXID_CHECKER_URI) {
-	router.use(validators.checkBoxIdWhitelisted);
-}
-
 // list of all validators to be in place
 router.use(validators.removeNativeKeys);
 router.use(validators.sizeValidator);
@@ -28,6 +24,10 @@ router.use(validators.keysValidator);
 router.use(validators.extractParams);
 router.use(validators.validateParams);
 router.use(validators.authenticateRequest);
+
+if (config.WHITELISTED_BOXID_CHECKER_URI) {
+	router.use(validators.checkBoxIdWhitelisted);
+}
 
 // only 100 POST requests are allowed in 60 minutes window
 router.post("/*", rateLimit({ windowMs: 60 * 60 * 1000, max: config.REQUEST_LIMIT_PER_HOUR }), model.xpost);
